@@ -1,0 +1,13 @@
+#!/bin/bash
+
+read -p "Estas apunto de apagar el dispositivo. ¿Estas seguro? [y/n] " input_usuario
+if [[ $input_usuario = "y" ]]
+then
+    echo "De acuerdo, apagando el dispositivo..."
+    sudo shutdown now
+elif [[ $input_usuario = "n" ]]
+then
+    echo "De acuerdo, no se apagara el dispositivo"
+else
+    echo "El input introducido por el usuario no es valido, no se apagara el dispositivo"
+fi
