@@ -1,0 +1,32 @@
+#!/bin/bash
+
+echo "Se va a actualizar la base de repositorios del sistema"
+sudo apt update
+echo "La base de respositorios del sistema ha sido actualizada"
+echo "Estos paquetes pueden ser actualizados: "
+read -p "¿Quieres actualiazarlos? [y/n] " input_usuario
+if [[ $input_usuario = "y" ]]
+then
+     echo "Ahora se actualizaran todos los paquetes del sistema"
+     sudo apt upgrade
+     echo "Los paquetes ya han sido actualizados"
+elif [[ $input_usuario = "n" ]]
+then
+     echo "De acuerdo, los paquetes no seran actualizados"
+else
+     echo "El input introducido por el usuario no es valido"
+     echo "Finalizando programa"
+fi
+
+read -p "¿Quieres hacer limpieza de los paquetes obsoletos? [y/n] " limpieza
+if [[ $limpieza = "y" ]]
+then
+    echo "De acuerdo, se hara una limpieza de los paquetes obsoletos."
+    sudo apt autoremove
+    echo "Los paquetes obsoletos han sido eliminados"
+elif [[ $limpieza = "n" ]]
+then
+    echo "De acuerdo, no se hara limpieza de los paquetes obsoletos."
+else
+    echo "El input introducido por el usuario no es un input valido, omitiendo limpieza"
+fi
