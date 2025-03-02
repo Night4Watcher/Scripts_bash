@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo "Este comando te colocara el PATH actual en el escritorio"
+read -p "¿Quieres tener el PATH en el escritorio? [y/n] " input_usuario
+
+if [[ $input_usuario = "y" ]]
+then
+    nombre_usuario=$(whoami)
+    cd /home/$nombre_usuario/Desktop
+    path_actual=$(pwd)
+    if [[ $path_actual != "/home/"$nombre_usuario"/Desktop" ]]
+    then
+        echo "No se ha logrado trasladar el PATH al escritorio"
+    else
+        echo "Se le ha trasladadoo el PATH al escritorio"
+    fi
+elif [[ $input_usuario = "n" ]]
+then
+    echo "De acuerdo, no se le trasladara el PATH al escritorio"
+else
+    echo "El input introducido no es valido, por lo tanto no se le trasladara el PATH al escritorio"
+fi
