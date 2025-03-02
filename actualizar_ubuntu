@@ -3,7 +3,10 @@
 echo "Se va a actualizar la base de repositorios del sistema"
 sudo apt update
 echo "La base de respositorios del sistema ha sido actualizada"
+
 echo "Estos paquetes pueden ser actualizados: "
+sudo apt list --upgradable
+
 read -p "¿Quieres actualiazarlos? [y/n] " input_usuario
 if [[ $input_usuario = "y" ]]
 then
