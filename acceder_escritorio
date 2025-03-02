@@ -12,7 +12,7 @@ then
     then
         echo "No se ha logrado trasladar el directorio al escritorio"
     else
-        echo "Se le ha trasladadoo el directorio al escritorio"
+        echo "Se le ha trasladado el directorio al escritorio"
     fi
 elif [[ $input_usuario = "n" ]]
 then
