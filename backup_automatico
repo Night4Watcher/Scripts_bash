@@ -1,60 +1,66 @@
 #!/bin/bash
 estado_programa=0
+comprobacion_carpeta=0
+nombre_carpeta="copia_seguridad"
 
 echo "Vamos a realizar la copia de seguridad del sistema"
-cd /
+echo "La copia de seguridad va a ser almacenada en /home"
+cd /home
+sleep 3s
 
+# COMPROBACION DE SI EL SISTEMA CUENTA CON UNA COPIA DE SEGURIDAD EN LA CARPETA HOME
 carpetas=$(ls)
-if [[ "copia_seguridad" in $carpetas ]]
-then
-    read -p "Cuentas con una carpeta llamada copia_seguridad. ¿Quieres reemplazarla? [y/n] " reemplazar_carpeta
-    if [[ $reemplazar_carpeta = "y" ]]
+for carpeta in $carpetas
+do
+    if [[ $carpeta = "copia_seguridad" ]]
     then
-        sudo rm -r copia_seguridad
-    elif [[ $reemplazar_carpeta = "n" ]]
-    then
-        echo "De acuerdo, no se hara nada con la carpeta"
-        # HACER QUE SE MODIFIQUE EL NOMBRE DEL ARCHIVO
         estado_programa=1
+        break
     fi
+done
+
+# OBTENER EL NOMBRE PARA LA CARPETA DE LA COPIA DE SEGURIDAD TANTO SI YA EXISTE UNA COMO SI NO
+if [[ $estado_programa = 1 ]]
+then
+    echo "Se ha detectado una carpeta en el sistema home"
+    read -p "¿Quieres eliminar la carpeta? [y/n] " eliminacion_carpeta
+    if [[ $eliminacion_carpeta = "y" ]]
+    then
+        echo "De acuerdo, se eliminara la carpeta"
+        rm -r copia_seguridad
+        if [[ $? = 0 ]]
+        then
+            echo "La carpeta ha sido eliminada correctamente"
+        else
+            echo "La carpeta no ha podido ser eliminada"
+            read -p "Introduce el nombre que quieras que tenga la carpeta: " nombre_carpeta
+        fi
+    elif [[ $eliminacion_carpeta = "n" ]]
+    then
+        echo "De acuerdo, no se eliminara la carpeta"
+        read -p "¿Quieres introducir un nombre a la carpeta? (Por defecto sera, copia_seguridad) [y/n] " eleccion_nombre
+        if [[ $eleccion_nombre = "y" ]]
+        then
+            read -p "Introduce el nombre que quieras que tenga la carpeta: " nombre_carpeta
+        elif [[ $eleccion_nombre = "n" ]]
+        then
+            echo "De acuerdo, el nombre de la carpeta sera copia_seguridad"
+            nombre_carpeta="copia_seguridad"
+        fi
+    fi
+elif [[ $estado_programa = 0 ]]
+then
+    echo "No se ha detectado ninguna carpeta de seguridad (copia_seguridad) en la carpeta."
+        read -p "¿Quieres configurar un nombre a la carpeta? (En caso de no hacerlo se llamara copia_seguridad) [y/n] " decision_nombre
+        if [[ $decision_nombre = "y" ]]
+        then
+            read -p "Introduce el nombre que quieras que tenga la carpeta: " nombre_carpeta
+        elif [[ $decision_nombre = "n" ]]
+        then
+            echo "De acuerdo, el nombre sera copia_seguridad"
+            nombre_carpeta="copia_seguridad"
+        fi
 fi
 
-if [[ $estado_programa = 0 ]]
-then
-    cd /
-    sudo mkdir copia_seguridad
-    carpetas=$(ls)
-    for carpeta in $carpetas
-    do
-        cd /home
-        cp $carpeta /copia_seguridad
-        cd copia_seguridad
-        carpetas_comprobación=$(ls)
-        if [[ $carpeta in $carpetas_compartidas ]]
-        then
-            echo "La carpeta "$carpeta" ha sido copiada correctamente"
-        else
-            echo "La carpeta "$carpeta" no ha podido copiarse en la copia de seguridad"
-        fi
-        sleep 3s
-    done 
-elif [[ $estado_programa = 1 ]]
-then
-    cd /
-    sudo mkdir copia_seguridad_1
-    carpetas=$(ls)
-    for carpeta in $carpetas
-    do
-        cd /home
-        cp $carpeta /copia_seguridad_1
-        cd copia_seguridad
-        carpetas_comprobación=$(ls)
-        if [[ $carpeta in $carpetas_compartidas ]]
-        then
-            echo "La carpeta "$carpeta" ha sido copiada correctamente"
-        else
-            echo "La carpeta "$carpeta" no ha podido copiarse en la copia de seguridad"
-        fi
-        sleep 3s
-    done 
-fi
+# INCIAR LA COPIA DE SEGURDIDAD
+echo $nombre_carpeta
