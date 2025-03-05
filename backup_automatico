@@ -26,7 +26,7 @@ then
     carpetas=$(ls)
     for carpeta in $carpetas
     do
-        cd /
+        cd /home
         cp $carpeta /copia_seguridad
         cd copia_seguridad
         carpetas_comprobación=$(ls)
@@ -45,7 +45,7 @@ then
     carpetas=$(ls)
     for carpeta in $carpetas
     do
-        cd /
+        cd /home
         cp $carpeta /copia_seguridad_1
         cd copia_seguridad
         carpetas_comprobación=$(ls)
