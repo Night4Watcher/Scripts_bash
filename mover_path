@@ -1,0 +1,9 @@
+#!bin/bash
+
+directorios_acceder=("Escritorio" "Home" "Root")
+
+for str in ${directorios_acceder[@]}; do
+    echo $str
+done
+
+echo -p "" directorio_acceder
